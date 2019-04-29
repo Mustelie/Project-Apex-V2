@@ -37,6 +37,23 @@ articlesMueller = getEverythingAbout(queryMueller)
 
 
 
-# from this result, katherine is going to write this bullshit to the database
+# from this result, katherine is going to write this to the database
 # twenty at a time 
 # and then we're going make a table of how many of these are from the NYT
+
+
+def FrequencyofSources(listFromDatabase):
+    freqSources = {} 
+    for source in database: 
+        if source not in freqSources: 
+            freqSources[source] = 1 
+        else: 
+            freqSources[source] += 1
+    return freqSources
+
+
+muellerdictionary = pass 
+
+def writetoJson(dictionaryofcounts):
+    with open("sourcesfrequencies.txt", "w+") as json: 
+        json.write(muellerdictionary)
