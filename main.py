@@ -78,7 +78,8 @@ openedmuellerdata = json.loads(openedjson.read())
 
 #print(openedmuellerdata)
 setkeys = openedmuellerdata.keys()
-daybar = plt.pie([openedmuellerdata[key] for key in setkeys], labels = setkeys, shadow=True, startangle=90)
+newkeylist = sorted(setkeys, key=lambda k: openedmuellerdata[k])[:10]
+daybar = plt.pie([openedmuellerdata[key] for key in newkeylist], labels = newkeylist, shadow=True, startangle=90)
 plt.title('Number of Articles Published by the Publisher')
 plt.savefig('muellergraph.png')
 
@@ -121,6 +122,7 @@ for i in range(0,5):
         cur.execute('''insert into NewsStoriesvsNYT values (?,?,?,?)''', (
             newsdict['title'], newsdict['url'], newsdict['source']['name'], newsdict['publishedAt']))
     conn.commit()
+
 cur.execute("SELECT link FROM NYTStories")
 list1 = cur.fetchall()
 cur.execute("SELECT link FROM NewsStoriesvsNYT")
@@ -136,7 +138,7 @@ def similaritiesbetweenboth(list1, list2):
             counter += 1 
     return counter
 
-counts = similaritiesbetweenboth()
+counts = similaritiesbetweenboth(list1, list2)
 with open("amountofmatches.txt", "w+") as matches: 
     strings = """
     When looking at the at the two api keys with the same 
@@ -144,7 +146,7 @@ with open("amountofmatches.txt", "w+") as matches:
     matches.write(strings)
 
 daybar = plt.pie([counts, 100-counts], labels = ["NYT Stories", "Non-NYT Stories"],
-                 shadow=True, colors=['lavender', 'turquoise'], startangle=90)
-plt.title('Number of Articles Published by the Publisher')
+                 shadow=True, colors=['indigo', 'turquoise'], startangle=90)
+plt.title('Number of Articles Published by the NYT from News API Results')
 plt.legend(["NYT Stories", "Non-NYT Stories"])
 plt.savefig('netanyahugraph.png')
