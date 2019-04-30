@@ -111,4 +111,11 @@ def EverythingCompNYT(dictofparams):
     everythingfromNYT = json.loads(responses.text)
 
     return everythingfromNYT
-SameParamsNewsApiNYT = EverythingCompNYT(paramsNYTcompNEWSAPIdotORG)
+SameParamsNewsApiNews = EverythingCompNYT(paramsNYTcompNEWSAPIdotORG)
+cur.execute('''create table if not exists NewsStoriesvsNYT (title text, link text, sourcename text, time_posted TIMESTAMP)''')
+for i in range(0,5):
+    pagenumb = 20*i
+    for newsdict in SameParamsNewsApiNews['articles'][pagenumb:(pagenumb+20)]:
+        cur.execute('''insert into NewsStoriesvsNYT values (?,?,?,?)''', (
+            newsdict['title'], newsdict['url'], newsdict['source']['name'], newsdict['publishedAt']))
+    conn.commit()
