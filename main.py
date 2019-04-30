@@ -77,11 +77,9 @@ openedmuellerdata = json.loads(openedjson.read())
 
 #print(openedmuellerdata)
 setkeys = openedmuellerdata.keys()
-daybar = plt.bar(setkeys, [openedmuellerdata[key] for key in setkeys])
-plt.ylabel('Number of Articles')
-plt.xlabel('Article Source')
+daybar = plt.pie([openedmuellerdata[key] for key in setkeys], labels = setkeys, shadow=True, startangle=90)
 plt.title('Number of Articles Published by the Publisher')
-plt.savefig("muellersources.png")
+plt.show()
 
 # HERES THE PORTION FOR THE NEW YORK TIMES AND NEWS API COMPARISON 
 for page in range(0,10):
