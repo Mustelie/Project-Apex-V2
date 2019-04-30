@@ -136,7 +136,7 @@ def similaritiesbetweenboth(list1, list2):
             counter += 1 
     return counter
 
-counts = similaritiesbetweenboth()
+counts = similaritiesbetweenboth(list1, list2)
 with open("amountofmatches.txt", "w+") as matches: 
     strings = """
     When looking at the at the two api keys with the same 
