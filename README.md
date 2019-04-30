@@ -1,4 +1,8 @@
 # Project-Apex-Vasquez
+**Instructions to Run Code:**
+
+Press the 'run' button and watch the magic happen.
+
 **Resource Documentation:**
 
 The News API was used to pull data on Mueller articles: https://newsapi.org/docs/endpoints/everything
