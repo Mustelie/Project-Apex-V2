@@ -38,7 +38,7 @@ articlesMueller = getEverythingAbout(queryMueller)
 conn = sqlite3.connect('news.sqlite')
 cur = conn.cursor()
 #cur.execute("drop table if exists NewsStories")
-cur.execute('''create table NewsStories (title text, link text, sourcename text, time_posted TIMESTAMP)''')
+cur.execute('''create table if not exists NewsStories (title text, link text, sourcename text, time_posted TIMESTAMP)''')
 for i in range(0,5):
     pagenumb = 20*i
     for newsdict in articlesMueller['articles'][pagenumb:(pagenumb+20)]:
@@ -82,7 +82,7 @@ plt.title('Number of Articles Published by the Publisher')
 plt.savefig('muellergraph.png')
 
 # HERES THE PORTION FOR THE NEW YORK TIMES AND NEWS API COMPARISON
-cur.execute('''create table NYTStories (link text, time_posted TIMESTAMP)''')
+cur.execute('''create table if not exists NYTStories (link text, time_posted TIMESTAMP)''')
 for page in range(0,10):
     NYTParamsNetanyahu = {
     "q": "Netanyahu", 
@@ -93,8 +93,10 @@ for page in range(0,10):
     everythingnyt = json.loads(nytresponses.text)
     #write into the data base here at this point 
     for nytdict in everythingnyt['response']['docs']:
-        cur.execute('''insert into NewsStories values (?,?)''', (
-            newsdict['web_url'], newsdict['pub_date']))
+            var1 = nytdict['web_url']
+            var2 = nytdict['pub_date']
+        cur.execute('''insert into NYTStories values (?,?)''', (
+            var1, var2))
     conn.commit()
 
 paramsNYTcompNEWSAPIdotORG = {
