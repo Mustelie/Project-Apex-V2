@@ -90,4 +90,19 @@ for page in range(0,10):
     "api-key": api_keys.nytAPIkey}
     nytresponses = requests.get("https://api.nytimes.com/svc/search/v2/articlesearch.json?", params = NYTParamsNetanyahu)
     everythingnyt = json.loads(nytresponses.text)
-#write into the data base here at this point 
+    #write into the data base here at this point 
+
+
+paramsNYTcompNEWSAPIdotORG = {
+    "apiKey": api_keys.newsAPIKey,  
+    "q": "Netanyahu",    
+    "sortBy": "publishedAt", 
+    "pageSize": 100, 
+    "sources": "the-new-york-times" 
+}
+def EverythingCompNYT(dictofparams):
+    responses = requests.get(baseURL+EverythingEndpoints, params = dictofparams)
+    everythingfromNYT = json.loads(responses.text)
+
+    return everythingfromNYT
+SameParamsNewsApiNYT = EverythingCompNYT(paramsNYTcompNEWSAPIdotORG)
