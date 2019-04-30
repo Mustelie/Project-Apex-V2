@@ -38,6 +38,7 @@ articlesMueller = getEverythingAbout(queryMueller)
 conn = sqlite3.connect('news.sqlite')
 cur = conn.cursor()
 #cur.execute("drop table if exists NewsStories")
+cur.execute("drop table if exists NewsStories")
 cur.execute('''create table if not exists NewsStories (title text, link text, sourcename text, time_posted TIMESTAMP)''')
 for i in range(0,5):
     pagenumb = 20*i
@@ -82,6 +83,7 @@ plt.title('Number of Articles Published by the Publisher')
 plt.savefig('muellergraph.png')
 
 # HERES THE PORTION FOR THE NEW YORK TIMES AND NEWS API COMPARISON
+cur.execute("drop table if exists NYTStories")
 cur.execute('''create table if not exists NYTStories (link text, time_posted TIMESTAMP)''')
 for page in range(0,10):
     NYTParamsNetanyahu = {
@@ -111,6 +113,7 @@ def EverythingCompNYT(dictofparams):
 
     return everythingfromNYT
 SameParamsNewsApiNews = EverythingCompNYT(paramsNYTcompNEWSAPIdotORG)
+cur.execute("drop table if exists NewsStoriesvsNYTs")
 cur.execute('''create table if not exists NewsStoriesvsNYT (title text, link text, sourcename text, time_posted TIMESTAMP)''')
 for i in range(0,5):
     pagenumb = 20*i
