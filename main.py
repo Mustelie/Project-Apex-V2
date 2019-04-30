@@ -93,10 +93,9 @@ for page in range(0,10):
     everythingnyt = json.loads(nytresponses.text)
     #write into the data base here at this point 
     for nytdict in everythingnyt['response']['docs']:
-            var1 = nytdict['web_url']
-            var2 = nytdict['pub_date']
-        cur.execute('''insert into NYTStories values (?,?)''', (
-            var1, var2))
+        var1 = nytdict['web_url']
+        var2 = nytdict['pub_date']
+        cur.execute('''insert into NYTStories values (?,?)''', (var1, var2))
     conn.commit()
 
 paramsNYTcompNEWSAPIdotORG = {
@@ -119,3 +118,17 @@ for i in range(0,5):
         cur.execute('''insert into NewsStoriesvsNYT values (?,?,?,?)''', (
             newsdict['title'], newsdict['url'], newsdict['source']['name'], newsdict['publishedAt']))
     conn.commit()
+
+
+
+# MAKE THE LISTS HERE 
+
+
+def similaritiesbetweenboth(list1, list2): 
+    counter = 0
+    for url in list1: 
+        if url in list2: 
+            counter += 1 
+    return counter
+
+counts = similaritiesbetweenboth()
