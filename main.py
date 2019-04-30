@@ -44,12 +44,12 @@ for i in range(0,6):
     for newsdict in articlesMueller['articles'][pagenumb:(pagenumb+20)]:
         cur.execute('''insert into Tweets values (?,?,?)''', (
             newsdict['title'], newsdict['url'], newsdict['source']['name'], newsdict['publishedAt']))
-
+    conn.commit()
 # from this result, katherine is going to write this to the database
 # twenty at a time 
 # and then we're going make a table of how many of these are from the NYT
 
-
+database =
 def FrequencyofSources(listFromDatabase):
     freqSources = {} 
     for source in database: 
@@ -60,7 +60,7 @@ def FrequencyofSources(listFromDatabase):
     return freqSources
 
 
-muellerdictionary = pass 
+muellerdictionary = ''
 
 def writetoJson(dictionaryofcounts):
     with open("sourcesfrequencies.txt", "w+") as json: 
