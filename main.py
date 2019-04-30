@@ -140,3 +140,9 @@ with open("amountofmatches.txt", "w+") as matches:
     When looking at the at the two api keys with the same 
     parameters, newsapi.org had a success/ match rate of {}$""".format(counts)
     matches.write(strings)
+
+daybar = plt.pie([counts, 100-counts], labels = ["NYT Stories", "Non-NYT Stories"],
+                 shadow=True, colors=['lavender', 'turquoise'], startangle=90)
+plt.title('Number of Articles Published by the Publisher')
+plt.legend(["NYT Stories", "Non-NYT Stories"])
+plt.savefig('netanyahugraph.png')
