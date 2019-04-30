@@ -35,7 +35,15 @@ def getEverythingAbout(dictofparams):
 queryMueller = EverythingParams10days("mueller")
 articlesMueller = getEverythingAbout(queryMueller)
 
-
+conn = sqlite3.connect('news.sqlite')
+cur = conn.cursor()
+cur.execute("drop table if exists NewsStories")
+cur.execute('''create table NewsStories (title text, link text, sourcename text, time_posted TIMESTAMP)''')
+for i in range(0,6):
+    pagenumb = 20*i
+    for newsdict in articlesMueller['articles'][pagenumb:(pagenumb+20)]:
+        cur.execute('''insert into Tweets values (?,?,?)''', (
+            newsdict['title'], newsdict['url'], newsdict['source']['name'], newsdict['publishedAt']))
 
 # from this result, katherine is going to write this to the database
 # twenty at a time 
