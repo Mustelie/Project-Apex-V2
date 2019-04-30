@@ -80,7 +80,7 @@ openedmuellerdata = json.loads(openedjson.read())
 setkeys = openedmuellerdata.keys()
 newkeylist = sorted(setkeys, key=lambda k: openedmuellerdata[k])[:10]
 oldpie = plt.pie([openedmuellerdata[key] for key in newkeylist], labels = newkeylist, shadow=True, startangle=90)
-plt.title('Number of Articles Published by the top ten Publishers')
+plt.title('Number of Articles  on Mueller Published by the top ten Publishers')
 plt.savefig('muellergraph.png')
 plt.clf()
 
@@ -148,7 +148,7 @@ with open("amountofmatches.txt", "w+") as matches:
 
 newpie = plt.pie([counts, 100-counts], labels = ["NYT Stories", "Non-NYT Stories"],
                  shadow=True, colors=['indigo', 'turquoise'], startangle=90)
-plt.title('Number of Articles Published by the NYT from News API Results')
+plt.title('Number of Articles on Netanyahu Published by the NYT from News API Results')
 plt.legend(["NYT Stories", "Non-NYT Stories"])
 plt.savefig('netanyahugraph.png')
 plt.clf()
