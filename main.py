@@ -39,20 +39,20 @@ conn = sqlite3.connect('news.sqlite')
 cur = conn.cursor()
 cur.execute("drop table if exists NewsStories")
 cur.execute('''create table NewsStories (title text, link text, sourcename text, time_posted TIMESTAMP)''')
-for i in range(0,6):
+for i in range(0,5):
     pagenumb = 20*i
     for newsdict in articlesMueller['articles'][pagenumb:(pagenumb+20)]:
-        cur.execute('''insert into Tweets values (?,?,?)''', (
+        cur.execute('''insert into NewsStories values (?,?,?,?)''', (
             newsdict['title'], newsdict['url'], newsdict['source']['name'], newsdict['publishedAt']))
     conn.commit()
 # from this result, katherine is going to write this to the database
 # twenty at a time 
 # and then we're going make a table of how many of these are from the NYT
 
-database =
+
 def FrequencyofSources(listFromDatabase):
     freqSources = {} 
-    for source in database: 
+    for source in listFromDatabase: 
         if source not in freqSources: 
             freqSources[source] = 1 
         else: 
@@ -65,3 +65,7 @@ muellerdictionary = ''
 def writetoJson(dictionaryofcounts):
     with open("sourcesfrequencies.txt", "w+") as json: 
         json.write(muellerdictionary)
+
+
+# HERES THE PORTION FOR THE NEW YORK TIMES AND NEWS API COMPARISON 
+
