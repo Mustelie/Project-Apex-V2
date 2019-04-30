@@ -79,9 +79,10 @@ openedmuellerdata = json.loads(openedjson.read())
 #print(openedmuellerdata)
 setkeys = openedmuellerdata.keys()
 newkeylist = sorted(setkeys, key=lambda k: openedmuellerdata[k])[:10]
-daybar = plt.pie([openedmuellerdata[key] for key in newkeylist], labels = newkeylist, shadow=True, startangle=90)
-plt.title('Number of Articles Published by the Publisher')
+oldpie = plt.pie([openedmuellerdata[key] for key in newkeylist], labels = newkeylist, shadow=True, startangle=90)
+plt.title('Number of Articles Published by the top ten Publishers')
 plt.savefig('muellergraph.png')
+plt.clf()
 
 # HERES THE PORTION FOR THE NEW YORK TIMES AND NEWS API COMPARISON
 cur.execute("drop table if exists NYTStories")
@@ -145,8 +146,9 @@ with open("amountofmatches.txt", "w+") as matches:
     parameters, newsapi.org had a success/ match rate of {}$""".format(counts)
     matches.write(strings)
 
-daybar = plt.pie([counts, 100-counts], labels = ["NYT Stories", "Non-NYT Stories"],
+newpie = plt.pie([counts, 100-counts], labels = ["NYT Stories", "Non-NYT Stories"],
                  shadow=True, colors=['indigo', 'turquoise'], startangle=90)
 plt.title('Number of Articles Published by the NYT from News API Results')
 plt.legend(["NYT Stories", "Non-NYT Stories"])
 plt.savefig('netanyahugraph.png')
+plt.clf()
