@@ -1,0 +1,1 @@
+{"Engadget": 1, "The New York Times": 40, "BBC News": 3, "Mashable": 3, "CNN": 30, "Gizmodo.com": 2, "Washingtonexaminer.com": 2, "Fox News": 1, "Globalnews.ca": 1, "Youtube.com": 1, "The Globe And Mail": 2, "Business Insider": 3, "Reuters": 7, "Wired": 1, "Boingboing.net": 1, "Yahoo.com": 1, "Ctvnews.ca": 1}

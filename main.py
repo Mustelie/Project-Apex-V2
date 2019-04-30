@@ -13,10 +13,10 @@ newyorktimesID = "the-new-york-times"
 
 
 # here is jsut everything aboout a query from a time constraint
-def EverythingParams10days(query):
+def EverythingParams10days():
     parameter = {
         "apiKey": api_keys.newsAPIKey,
-        "q": query,
+        "q": "mueller",
         "pageSize": 100,
         "from": "2019-04-29",
         "to": "2019-04-19",
@@ -32,7 +32,7 @@ def getEverythingAbout(dictofparams):
     return everything
 
 
-queryMueller = EverythingParams10days("mueller")
+queryMueller = EverythingParams10days()
 articlesMueller = getEverythingAbout(queryMueller)
 
 conn = sqlite3.connect('news.sqlite')
@@ -49,34 +49,47 @@ for i in range(0,5):
 # twenty at a time 
 # and then we're going make a table of how many of these are from the NYT
 
-cur.execute('SELECT sourcename FROM NewsStories')
-database = cur.fetchall()
+# still need to select the database portion 
+cur.execute("SELECT sourcename FROM NewsStories ")
+sourcesLists = cur.fetchall()
+#print(sourcesLists)
+sourcelist = [source[0] for source in sourcesLists]
 
 def FrequencyofSources(listFromDatabase):
     freqSources = {} 
-    for source in listFromDatabase:
+    for source in listFromDatabase: 
         if source not in freqSources: 
             freqSources[source] = 1 
         else: 
             freqSources[source] += 1
-    return freqSources
+    return json.dumps(freqSources)
 
 
-muellerdictionary = ''
+muellerdictionary = FrequencyofSources(sourcelist)
 
-def writetoJson(dictionaryofcounts):
-    with open("sourcesfrequencies.txt", "w+") as json: 
-        json.write(muellerdictionary)
 
-openedjson = open("sourcefrequencies.txt", "r")
-openedmuellerdata = openedjson.loads()
+with open("sourcesfrequencies.txt", "w+") as frequencies: 
+    frequencies.write(muellerdictionary)
 
+#visualization portion is here 
+openedjson = open("sourcesfrequencies.txt", "r")
+openedmuellerdata = json.loads(openedjson.read())
+
+#print(openedmuellerdata)
 setkeys = openedmuellerdata.keys()
 daybar = plt.bar(setkeys, [openedmuellerdata[key] for key in setkeys])
 plt.ylabel('Number of Articles')
 plt.xlabel('Article Source')
 plt.title('Number of Articles Published by the Publisher')
-plt.show()
+plt.savefig("muellersources.png")
 
-
-
+# HERES THE PORTION FOR THE NEW YORK TIMES AND NEWS API COMPARISON 
+for page in range(0,10):
+    NYTParamsNetanyahu = {
+    "q": "Netanyahu", 
+    "page": page, 
+    "sort": "newest", 
+    "api-key": api_keys.nytAPIkey}
+    nytresponses = requests.get("https://api.nytimes.com/svc/search/v2/articlesearch.json?", params = NYTParamsNetanyahu)
+    everythingnyt = json.loads(nytresponses.text)
+#write into the data base here at this point 
