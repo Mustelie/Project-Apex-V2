@@ -37,7 +37,7 @@ articlesMueller = getEverythingAbout(queryMueller)
 
 conn = sqlite3.connect('news.sqlite')
 cur = conn.cursor()
-cur.execute("drop table if exists NewsStories")
+#cur.execute("drop table if exists NewsStories")
 cur.execute('''create table NewsStories (title text, link text, sourcename text, time_posted TIMESTAMP)''')
 for i in range(0,5):
     pagenumb = 20*i
@@ -79,9 +79,10 @@ openedmuellerdata = json.loads(openedjson.read())
 setkeys = openedmuellerdata.keys()
 daybar = plt.pie([openedmuellerdata[key] for key in setkeys], labels = setkeys, shadow=True, startangle=90)
 plt.title('Number of Articles Published by the Publisher')
-plt.show()
+plt.savefig('muellergraph.png')
 
-# HERES THE PORTION FOR THE NEW YORK TIMES AND NEWS API COMPARISON 
+# HERES THE PORTION FOR THE NEW YORK TIMES AND NEWS API COMPARISON
+cur.execute('''create table NYTStories (link text, time_posted TIMESTAMP)''')
 for page in range(0,10):
     NYTParamsNetanyahu = {
     "q": "Netanyahu", 
@@ -91,7 +92,10 @@ for page in range(0,10):
     nytresponses = requests.get("https://api.nytimes.com/svc/search/v2/articlesearch.json?", params = NYTParamsNetanyahu)
     everythingnyt = json.loads(nytresponses.text)
     #write into the data base here at this point 
-
+    for nytdict in everythingnyt['response']['docs']:
+        cur.execute('''insert into NewsStories values (?,?)''', (
+            newsdict['web_url'], newsdict['pub_date']))
+    conn.commit()
 
 paramsNYTcompNEWSAPIdotORG = {
     "apiKey": api_keys.newsAPIKey,  
