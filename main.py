@@ -132,3 +132,8 @@ def similaritiesbetweenboth(list1, list2):
     return counter
 
 counts = similaritiesbetweenboth()
+with open("amountofmatches.txt", "w+") as matches: 
+    strings = """
+    When looking at the at the two api keys with the same 
+    parameters, newsapi.org had a success/ match rate of {}$""".format(counts)
+    matches.write(strings)
