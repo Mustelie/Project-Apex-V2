@@ -113,7 +113,7 @@ def EverythingCompNYT(dictofparams):
 
     return everythingfromNYT
 SameParamsNewsApiNews = EverythingCompNYT(paramsNYTcompNEWSAPIdotORG)
-cur.execute("drop table if exists NewsStoriesvsNYTs")
+cur.execute("drop table if exists NewsStoriesvsNYT")
 cur.execute('''create table if not exists NewsStoriesvsNYT (title text, link text, sourcename text, time_posted TIMESTAMP)''')
 for i in range(0,5):
     pagenumb = 20*i
@@ -121,8 +121,10 @@ for i in range(0,5):
         cur.execute('''insert into NewsStoriesvsNYT values (?,?,?,?)''', (
             newsdict['title'], newsdict['url'], newsdict['source']['name'], newsdict['publishedAt']))
     conn.commit()
-
-
+cur.execute("SELECT link FROM NYTStories")
+list1 = cur.fetchall()
+cur.execute("SELECT link FROM NewsStoriesvsNYT")
+list2 = cur.fetchall()
 
 # MAKE THE LISTS HERE 
 
